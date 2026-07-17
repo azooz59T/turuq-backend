@@ -57,6 +57,9 @@ const userSchema = new Schema(
 // requirement at the database level and makes lookups by email fast.
 userSchema.index({ email: 1 }, { unique: true });
 
+// Index on age to keep age-range filtering (GET /users?minAge=&maxAge=) efficient.
+userSchema.index({ age: 1 });
+
 const User = model('User', userSchema);
 
 export default User;

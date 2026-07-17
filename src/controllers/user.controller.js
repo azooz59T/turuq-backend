@@ -14,8 +14,15 @@ export async function createUser(req, res) {
 
 // GET /users
 export async function getUsers(req, res) {
-  const users = await userService.getUsers();
-  res.status(200).json({ success: true, count: users.length, data: users });
+  const { users, total, page, limit, totalPages } = await userService.getUsers(
+    req.validatedQuery
+  );
+  res.status(200).json({
+    success: true,
+    count: users.length,
+    pagination: { total, page, limit, totalPages },
+    data: users,
+  });
 }
 
 // GET /users/:id
