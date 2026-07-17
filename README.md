@@ -5,8 +5,8 @@ authentication, built on **Node.js + Express + Mongoose (MongoDB Atlas)**.
 Built for the Turuq backend assessment, delivered incrementally via feature
 branches → pull requests.
 
-- **Live API:** _add after deploying — see [Deployment](#deployment)_
-- **Interactive API docs (Swagger):** `<base-url>/api-docs`
+- **Live API:** <https://turuq-backend.onrender.com>
+- **Interactive API docs (Swagger):** <https://turuq-backend.onrender.com/api-docs>
 - **Task 2 — delivery-slot pseudocode:** [DELIVERY_SLOTS_PSEUDOCODE.md](./DELIVERY_SLOTS_PSEUDOCODE.md)
 - **Setup notes & challenges faced:** [CHALLENGES.md](./CHALLENGES.md)
 
@@ -151,9 +151,11 @@ user enumeration.
 
 ### Example requests
 
+Against the live API (swap the base for `http://localhost:5000` to run locally):
+
 ```bash
 # 1) Register (or /auth/login) to get a token
-curl -X POST http://localhost:5000/auth/register \
+curl -X POST https://turuq-backend.onrender.com/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"you@example.com","password":"password123"}'
 # → { "success": true, "data": { "account": { ... }, "token": "<JWT>" } }
@@ -161,29 +163,29 @@ curl -X POST http://localhost:5000/auth/register \
 TOKEN="<paste the JWT>"
 
 # 2) Create a user
-curl -X POST http://localhost:5000/users \
+curl -X POST https://turuq-backend.onrender.com/users \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN" \
   -d '{"name":"Sara","email":"sara@example.com","age":30}'
 
 # 3) List with pagination + age filter
-curl "http://localhost:5000/users?page=1&limit=10&minAge=18&maxAge=40" \
+curl "https://turuq-backend.onrender.com/users?page=1&limit=10&minAge=18&maxAge=40" \
   -H "Authorization: Bearer $TOKEN"
 
 # 4) Fetch / update / delete by id
-curl http://localhost:5000/users/<id> -H "Authorization: Bearer $TOKEN"
-curl -X PUT http://localhost:5000/users/<id> \
+curl https://turuq-backend.onrender.com/users/<id> -H "Authorization: Bearer $TOKEN"
+curl -X PUT https://turuq-backend.onrender.com/users/<id> \
   -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" \
   -d '{"age":31}'
-curl -X DELETE http://localhost:5000/users/<id> -H "Authorization: Bearer $TOKEN"
+curl -X DELETE https://turuq-backend.onrender.com/users/<id> -H "Authorization: Bearer $TOKEN"
 ```
 
 ---
 
 ## API documentation (Swagger)
 
-- **Interactive UI:** `<base-url>/api-docs` — click **Authorize**, paste a token, then use **Try it out** on any endpoint.
-- **Raw OpenAPI spec:** `<base-url>/api-docs.json` — import into **Insomnia** or **Postman** (Import → From URL) for a ready-made request collection.
+- **Interactive UI:** <https://turuq-backend.onrender.com/api-docs> — click **Authorize**, paste a token, then use **Try it out** on any endpoint.
+- **Raw OpenAPI spec:** <https://turuq-backend.onrender.com/api-docs.json> — import into **Insomnia** or **Postman** (Import → From URL) for a ready-made request collection.
 
 ---
 
