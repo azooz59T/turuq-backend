@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import userRoutes from './user.routes.js';
 
 const router = Router();
 
@@ -13,8 +14,7 @@ router.get('/health', (_req, res) => {
   res.status(200).json({ status: 'ok', uptime: process.uptime() });
 });
 
-// Feature routers are mounted here as they land in their own PRs, e.g.:
-//   import userRoutes from './user.routes.js';
-//   router.use('/users', userRoutes);
+// Feature routers.
+router.use('/users', userRoutes);
 
 export default router;
