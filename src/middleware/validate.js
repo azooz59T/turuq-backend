@@ -6,8 +6,8 @@ import ApiError from '../utils/ApiError.js';
  * (trimmed strings, lowercased email, unknown keys stripped). On failure a 400
  * ApiError with per-field messages is forwarded to the central error handler.
  *
- * Note: targets writable parts (`body`, `params`). `req.query` is read-only in
- * Express 5, so query validation is handled differently where needed.
+ * Note: `req.query` is read-only in Express 5, so when `part === 'query'` the
+ * parsed result is stashed on `req.validatedQuery` instead of reassigning it.
  */
 export default function validate(schema, part = 'body') {
   return (req, _res, next) => {
@@ -18,7 +18,9 @@ export default function validate(schema, part = 'body') {
       );
       return next(ApiError.badRequest('Validation failed', details));
     }
-    req[part] = result.data;
+    // req.query is read-only in Express 5, so stash the parsed query separately.
+    if (part === 'query') req.validatedQuery = result.data;
+    else req[part] = result.data;
     next();
   };
 }
