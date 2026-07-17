@@ -1,0 +1,35 @@
+{
+  "name": "turuq-backend",
+  "version": "0.1.0",
+  "description": "RESTful API for user data handling (CRUD, JWT auth, MongoDB) — Turuq backend assessment.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "express",
+    "mongoose",
+    "mongodb",
+    "rest-api",
+    "jwt",
+    "crud"
+  ],
+  "author": "azooz59T",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "mongoose": "^9.7.4",
+    "morgan": "^1.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
