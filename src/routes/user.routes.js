@@ -1,14 +1,18 @@
 import { Router } from 'express';
 import * as userController from '../controllers/user.controller.js';
 import validate from '../middleware/validate.js';
-import { createUserSchema, updateUserSchema } from '../validators/user.validation.js';
+import {
+  createUserSchema,
+  updateUserSchema,
+  listUsersQuerySchema,
+} from '../validators/user.validation.js';
 
 const router = Router();
 
 router
   .route('/')
   .post(validate(createUserSchema), userController.createUser) // POST   /users
-  .get(userController.getUsers); //                               GET    /users
+  .get(validate(listUsersQuerySchema, 'query'), userController.getUsers); //  GET /users
 
 router
   .route('/:id')
