@@ -2,9 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
 
 import { isProd, isTest } from './config/env.js';
 import routes from './routes/index.js';
+import swaggerSpec from './config/swagger.js';
 import sanitize from './middleware/sanitize.js';
 import notFound from './middleware/notFound.js';
 import errorHandler from './middleware/errorHandler.js';
@@ -31,6 +33,20 @@ if (!isTest) {
 
 // ── Routes ─────────────────────────────────────────────────────────────────
 app.use('/', routes);
+
+// ── API documentation (Swagger UI) ─────────────────────────────────────────
+// Serve the raw spec (importable into Insomnia/Postman) and the interactive UI.
+// Helmet's default CSP blocks Swagger UI's inline assets, so relax it here only.
+app.get('/api-docs.json', (_req, res) => res.json(swaggerSpec));
+app.use(
+  '/api-docs',
+  (_req, res, next) => {
+    res.removeHeader('Content-Security-Policy');
+    next();
+  },
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, { customSiteTitle: 'Turuq API Docs' })
+);
 
 // ── 404 + centralized error handling (must be registered last) ─────────────
 app.use(notFound);
