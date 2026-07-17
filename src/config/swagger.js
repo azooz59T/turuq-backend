@@ -5,6 +5,12 @@ import env from './env.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 
+// Prefer the deployed URL (set API_PUBLIC_URL in production) so Swagger UI's
+// "Try it out" targets the live server; always keep localhost for local dev.
+const servers = [];
+if (env.publicUrl) servers.push({ url: env.publicUrl, description: 'Production' });
+servers.push({ url: `http://localhost:${env.port}`, description: 'Local development' });
+
 /**
  * Base OpenAPI document. Reusable pieces (schemas, security scheme, common error
  * responses) live here; the per-endpoint operations are declared as `@openapi`
@@ -20,7 +26,7 @@ const definition = {
       'Register or log in via `/auth` to obtain a token, then send it as a ' +
       '`Bearer` token to the protected `/users` endpoints.',
   },
-  servers: [{ url: `http://localhost:${env.port}`, description: 'Local development' }],
+  servers,
   tags: [
     { name: 'Auth', description: 'Registration and login' },
     { name: 'Users', description: 'User profile CRUD (JWT-protected)' },

@@ -14,6 +14,7 @@ const env = {
   mongoUri: process.env.MONGODB_URI ?? '',
   jwtSecret: process.env.JWT_SECRET ?? '',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '1d',
+  publicUrl: process.env.API_PUBLIC_URL ?? '',
 };
 
 export const isProd = env.nodeEnv === 'production';
