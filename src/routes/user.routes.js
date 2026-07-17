@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as userController from '../controllers/user.controller.js';
 import validate from '../middleware/validate.js';
+import requireAuth from '../middleware/auth.js';
 import {
   createUserSchema,
   updateUserSchema,
@@ -8,6 +9,9 @@ import {
 } from '../validators/user.validation.js';
 
 const router = Router();
+
+// All user-profile endpoints require a valid JWT.
+router.use(requireAuth);
 
 router
   .route('/')
